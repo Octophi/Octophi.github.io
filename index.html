@@ -2,6 +2,9 @@
 	<head>
 		<script>
 		if('sessionStorage' in window && window.sessionStorage !== null){
+			if(sessionStorage.getItem("item_is_set") === "true"){
+				console.log("Wow it's already set!");
+			}
 			sessionStorage.setItem("item_is_set", "true");
 		}
 		</script>
