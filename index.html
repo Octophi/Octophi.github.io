@@ -1,4 +1,11 @@
 <html>
+	<head>
+		<script>
+		if('sessionStorage' in window && window.sessionStorage !== null){
+			sessionStorage.setItem("item_is_set", "true");
+		}
+		</script>
+	</head>
 	<body>
 		<iframe src="/includedpage.html" />
 	</body>
