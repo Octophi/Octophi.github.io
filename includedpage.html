@@ -2,8 +2,8 @@
 	<head>
 		<script>
 			if('sessionStorage' in window && window.sessionStorage !== null){
-				sessionStorage.set("item_set_from_iframe", "true");
-				console.log(sessionStorage.get("item_is_set"));
+				sessionStorage.setItem("item_set_from_iframe", "true");
+				console.log(sessionStorage.getItem("item_is_set"));
 			}
 		</script>
 	</head>
