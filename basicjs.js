@@ -7130,69 +7130,6 @@
     }
     return{getStyle:function(el, name) {
       return Ext.fly(el).getStyle(name)
-    }, compile:function(path, type) {
-      type = type || "select";
-      var fn = ["var f \x3d function(root){\n var mode; ++batch; var n \x3d root || document;\n"], mode, lastPath, matchers = Ext.DomQuery.matchers, matchersLn = matchers.length, modeMatch, lmode = path.match(modeRe), tokenMatch, matched, j, t, m;
-      path = setupEscapes(path);
-      if(lmode && lmode[1]) {
-        fn[fn.length] = 'mode\x3d"' + lmode[1].replace(trimRe, "") + '";';
-        path = path.replace(lmode[1], "")
-      }
-      while(path.substr(0, 1) == "/") {
-        path = path.substr(1)
-      }
-      while(path && lastPath != path) {
-        lastPath = path;
-        tokenMatch = path.match(tagTokenRe);
-        if(type == "select") {
-          if(tokenMatch) {
-            if(tokenMatch[1] == "#") {
-              fn[fn.length] = 'n \x3d quickId(n, mode, root, "' + tokenMatch[2] + '");'
-            }else {
-              fn[fn.length] = 'n \x3d getNodes(n, mode, "' + tokenMatch[2] + '");'
-            }
-            path = path.replace(tokenMatch[0], "")
-          }else {
-            if(path.substr(0, 1) != "@") {
-              fn[fn.length] = 'n \x3d getNodes(n, mode, "*");'
-            }
-          }
-        }else {
-          if(tokenMatch) {
-            if(tokenMatch[1] == "#") {
-              fn[fn.length] = 'n \x3d byId(n, "' + tokenMatch[2] + '");'
-            }else {
-              fn[fn.length] = 'n \x3d byTag(n, "' + tokenMatch[2] + '");'
-            }
-            path = path.replace(tokenMatch[0], "")
-          }
-        }
-        while(!(modeMatch = path.match(modeRe))) {
-          matched = false;
-          for(j = 0;j < matchersLn;j++) {
-            t = matchers[j];
-            m = path.match(t.re);
-            if(m) {
-              fn[fn.length] = t.select.replace(tplRe, function(x, i) {
-                return m[i]
-              });
-              path = path.replace(m[0], "");
-              matched = true;
-              break
-            }
-          }
-          if(!matched) {
-            Ext.Error.raise({sourceClass:"Ext.DomQuery", sourceMethod:"compile", msg:'Error parsing selector. Parsing failed at "' + path + '"'})
-          }
-        }
-        if(modeMatch[1]) {
-          fn[fn.length] = 'mode\x3d"' + modeMatch[1].replace(trimRe, "") + '";';
-          path = path.replace(modeMatch[1], "")
-        }
-      }
-      fn[fn.length] = "return nodup(n);\n}";
-      eval(fn.join(""));
-      return f
     }, jsSelect:function(path, root, type) {
       root = root || document;
       if(typeof root == "string") {
